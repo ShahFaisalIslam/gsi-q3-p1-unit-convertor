@@ -22,26 +22,46 @@ def swap_if_duplicate(**kwargs):
             st.session_state.left_unit = st.session_state.prev_right_unit
 
 def convert_right_value():
-            # Get right and left unit factors
-            factor_right = unit_data[unit_list.index(st.session_state.right_unit)][1]
-            factor_right_operator = unit_data[unit_list.index(st.session_state.right_unit)][2]
-            factor_left = unit_data[unit_list.index(st.session_state.left_unit)][1]
-            factor_left_operator = unit_data[unit_list.index(st.session_state.left_unit)][2]
-            # Factor numerator
-            # It will have factor_right if factor_right_operator is divide
-            # Similarly, it will have factor_left it factor_left_operator is multiply
-            factor_numerator = (factor_right if factor_right_operator == "/" else 1)
-            factor_numerator *= (factor_left if factor_left_operator == "*" else 1)
-            # Factor denominator
-            # It will have factor_right if factor_right_operator is multiply
-            # Similarly, it will have factor_left it factor_left_operator is divide
-            factor_denominator = (factor_right if factor_right_operator == "*" else 1)
-            factor_denominator *= (factor_left if factor_left_operator == "/" else 1)
-            # Conversion
-            # To reduce truncation error, we first multiply the numerator then divide the denominator
-            st.session_state.right_value = st.session_state.left_value * factor_numerator / factor_denominator
-            return factor_numerator, factor_denominator
+    # Get right and left unit factors
+    factor_right = unit_data[unit_list.index(st.session_state.right_unit)][1]
+    factor_right_operator = unit_data[unit_list.index(st.session_state.right_unit)][2]
+    factor_left = unit_data[unit_list.index(st.session_state.left_unit)][1]
+    factor_left_operator = unit_data[unit_list.index(st.session_state.left_unit)][2]
+    # Factor numerator
+    # It will have factor_right if factor_right_operator is divide
+    # Similarly, it will have factor_left it factor_left_operator is multiply
+    factor_numerator = (factor_right if factor_right_operator == "/" else 1)
+    factor_numerator *= (factor_left if factor_left_operator == "*" else 1)
+    # Factor denominator
+    # It will have factor_right if factor_right_operator is multiply
+    # Similarly, it will have factor_left it factor_left_operator is divide
+    factor_denominator = (factor_right if factor_right_operator == "*" else 1)
+    factor_denominator *= (factor_left if factor_left_operator == "/" else 1)
+    # Conversion
+    # To reduce truncation error, we first multiply the numerator then divide the denominator
+    st.session_state.right_value = st.session_state.left_value * factor_numerator / factor_denominator
+    return factor_numerator, factor_denominator
 
+def convert_left_value():
+    # Get right and left unit factors
+    factor_right = unit_data[unit_list.index(st.session_state.right_unit)][1]
+    factor_right_operator = unit_data[unit_list.index(st.session_state.right_unit)][2]
+    factor_left = unit_data[unit_list.index(st.session_state.left_unit)][1]
+    factor_left_operator = unit_data[unit_list.index(st.session_state.left_unit)][2]
+    # Factor denominator
+    # It will have factor_right if factor_right_operator is divide
+    # Similarly, it will have factor_left it factor_left_operator is multiply
+    factor_denominator = (factor_right if factor_right_operator == "/" else 1)
+    factor_denominator *= (factor_left if factor_left_operator == "*" else 1)
+    # Factor numerator
+    # It will have factor_right if factor_right_operator is multiply
+    # Similarly, it will have factor_left it factor_left_operator is divide
+    factor_numerator = (factor_right if factor_right_operator == "*" else 1)
+    factor_numerator *= (factor_left if factor_left_operator == "/" else 1)
+    # Conversion
+    # To reduce truncation error, we first multiply the numerator then divide the denominator
+
+    st.session_state.left_value = st.session_state.right_value * factor_numerator / factor_denominator
 
 with open("data/quantity.json") as quantity_file:
     quantity_list = json.loads(quantity_file.read())
@@ -65,7 +85,7 @@ with open("data/quantity.json") as quantity_file:
                 st.session_state.right_unit = unit_list[1]
             # Conversion
             [factor_numerator, factor_denominator] = convert_right_value()
-            st.number_input("Right Value",key="right_value",step=0.01,label_visibility="hidden")
+            st.number_input("Right Value",key="right_value",step=0.01,label_visibility="hidden",on_change=convert_left_value)
             st.session_state.prev_right_unit = st.selectbox("Unit",unit_list,label_visibility="hidden",key="right_unit",on_change=swap_if_duplicate,kwargs={"direction":"right"})
 
         # Information about how to convert
