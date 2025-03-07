@@ -1,0 +1,12 @@
+[
+    ["Joule",1,"*"],
+    ["Kilojoule",1000,"*"],
+    ["Gram calorie",4.184,"*"],
+    ["Kilocalorie",4184,"*"],
+    ["Watt hour",3600,"*"],
+    ["Kilowatt-hour",3600000,"*"],
+    ["Electronvolt",6.242000000000000000,"/"],
+    ["British thermal unit",1055.06,"*"],
+    ["US therm",105500000,"*"],
+    ["Foot-pound",1.35582,"*"]
+]
