@@ -21,7 +21,16 @@ def swap_if_duplicate(**kwargs):
         if st.session_state.left_unit == st.session_state.right_unit:
             st.session_state.left_unit = st.session_state.prev_right_unit
 
+def convert_right_value_temperature():
+    return 1,1
+
+def convert_left_value_temperature():
+    return 1,1
+
 def convert_right_value():
+    # Deal with temperature quantity in a separate function
+    if st.session_state.quantity == "Temperature":
+        return convert_right_value_temperature()
     # Get right and left unit factors
     factor_right = unit_data[unit_list.index(st.session_state.right_unit)][1]
     factor_right_operator = unit_data[unit_list.index(st.session_state.right_unit)][2]
@@ -43,6 +52,9 @@ def convert_right_value():
     return factor_numerator, factor_denominator
 
 def convert_left_value():
+    # Deal with temperature quantity in a separate function
+    if st.session_state.quantity == "Temperature":
+        return convert_left_value_temperature()
     # Get right and left unit factors
     factor_right = unit_data[unit_list.index(st.session_state.right_unit)][1]
     factor_right_operator = unit_data[unit_list.index(st.session_state.right_unit)][2]
@@ -65,7 +77,7 @@ def convert_left_value():
 
 with open("data/quantity.json") as quantity_file:
     quantity_list = json.loads(quantity_file.read())
-    quantity = st.selectbox("Quantity",quantity_list,index=quantity_list.index("Length"),label_visibility="hidden")
+    quantity = st.selectbox("Quantity",quantity_list,index=quantity_list.index("Length"),label_visibility="hidden",key="quantity")
     quantity = quantity.lower().replace(" ","_")
     with open(f"data/quantity/{quantity}.json") as unit_file:
         unit_data = json.loads(unit_file.read())

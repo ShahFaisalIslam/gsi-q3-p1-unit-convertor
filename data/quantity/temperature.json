@@ -1,0 +1,35 @@
+[
+    [
+        "Celsius",
+        [
+            {
+                "factor": 273.15,
+                "operator": "+"
+            }
+        ]
+    ],
+    [
+        "Fahrenheit",
+        [
+            {
+                "factor": 32,
+                "operator": "-"
+            },
+            {
+                "factor": 5,
+                "operator": "*"
+            },
+            {
+                "factor": 9,
+                "operator": "/"
+            },
+            {
+                "factor": 273.15,
+                "operator": "+"
+            }
+        ]
+    ],
+    [
+        "Kelvin"
+    ]
+]
