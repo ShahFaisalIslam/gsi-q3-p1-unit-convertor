@@ -93,7 +93,7 @@ with open("data/quantity.json") as quantity_file:
             st.html("<h1 style='text-align:center'>=</p>")
         # Right hand side unit
         with right_col:
-            if "right_unit" not in st.session_state:
+            if "right_unit" not in st.session_state or st.session_state.right_unit not in unit_list:
                 st.session_state.right_unit = unit_list[1]
             # Conversion
             [factor_numerator, factor_denominator] = convert_right_value()
