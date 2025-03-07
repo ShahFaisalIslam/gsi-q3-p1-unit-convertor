@@ -21,6 +21,35 @@ def swap_if_duplicate(**kwargs):
         if st.session_state.left_unit == st.session_state.right_unit:
             st.session_state.left_unit = st.session_state.prev_right_unit
 
+# Function takes in series of operations, which is a list of dictionaries,
+# and presents them to the user.
+# Each dictionary consists of two key-value pairs: factor and operator
+# Operators tells what to do, and factor tells us what number will be used
+# in the operation.
+# For example, [{"factor": 5, "operator": "+"}, {"factor" : 20, "operator": "/"}]
+# Will yield 'result = result + 5; result = result / 20'
+# The simple series of statements for now is easier to display than a complex web
+# of parentheses-filled statements, so let's ignore that for now
+def display_conversion(series: list,invert=False):
+    conversion_string = ""
+    if invert:
+        rseries = reversed(series)
+        series = []
+        for operation in rseries:
+            if operation["operator"] == "+":
+                roperation = {"operator" : "-","factor" : operation["factor"]}
+            if operation["operator"] == "-":
+                roperation = {"operator" : "+","factor" : operation["factor"]}
+            if operation["operator"] == "*":
+                roperation = {"operator" : "/","factor" : operation["factor"]}
+            if operation["operator"] == "/":
+                roperation = {"operator" : "*","factor" : operation["factor"]}
+            series.append(roperation)
+    for operation in series:
+        conversion_string += f"result {operation["operator"]}= {operation["factor"]};"
+    conversion_string = conversion_string.removesuffix(';')
+    st.write(conversion_string)
+
 def convert_right_value_temperature():
     return 1,1
 
@@ -101,6 +130,14 @@ with open("data/quantity.json") as quantity_file:
             st.session_state.prev_right_unit = st.selectbox("Unit",unit_list,label_visibility="hidden",key="right_unit",on_change=swap_if_duplicate,kwargs={"direction":"right"})
 
         # Information about how to convert
-        action = "Multiply" if factor_numerator > factor_denominator else "Divide"
-        factor = (factor_numerator/factor_denominator) if factor_numerator > factor_denominator else (factor_denominator/factor_numerator)
-        st.subheader(f"Formula: {action} by {factor}")
+        # with exception for temperature
+        if quantity != "temperature":
+            action = "Multiply" if factor_numerator > factor_denominator else "Divide"
+            factor = (factor_numerator/factor_denominator) if factor_numerator > factor_denominator else (factor_denominator/factor_numerator)
+            st.subheader(f"Formula: {action} by {factor}")
+        else:
+#            display_conversion(unit_list.index(st.session_state.left_unit)[1])
+            display_conversion(unit_data[unit_list.index(st.session_state.left_unit)][1])
+            display_conversion(unit_data[unit_list.index(st.session_state.right_unit)][1])
+            display_conversion(unit_data[unit_list.index(st.session_state.left_unit)][1],True)
+            display_conversion(unit_data[unit_list.index(st.session_state.right_unit)][1],True)
