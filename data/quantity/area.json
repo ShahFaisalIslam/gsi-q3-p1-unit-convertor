@@ -1,0 +1,10 @@
+[
+    ["Square kilometre",1000000,"*"],
+    ["Square metre",1,"*"],
+    ["Square mile",2589988,"*"],
+    ["Square yard",1.19599,"/"],
+    ["Square foot",10.7639,"/"],
+    ["Square inch",1550,"/"],
+    ["Hectare",10000,"*"],
+    ["Acre",4046.86,"*"]
+]
