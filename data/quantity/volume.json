@@ -1,0 +1,21 @@
+[
+    ["US liquid gallon",264.172,"/"],
+    ["US liquid quart",1056.69,"/"],
+    ["US liquid pint",2113.38,"/"],
+    ["US legal cup",4166.67,"/"],
+    ["US fluid ounce",33814,"/"],
+    ["US tablespoon",67628,"/"],
+    ["US teaspoon",202884,"/"],
+    ["Cubic meter",1,"*"],
+    ["Liter",1000,"/"],
+    ["Milliliter",1000000,"/"],
+    ["Imperial gallon",219.969,"/"],
+    ["Imperial quart",879.877,"/"],
+    ["Imperial pint",1759.75,"/"],
+    ["Imperial cup",3519.51,"/"],
+    ["Imperial fluid ounce",35195.1,"/"],
+    ["Imperial tablespoon",56312.1,"/"],
+    ["Imperial teaspoon",168936,"/"],
+    ["Cubic foot",35.3147,"/"],
+    ["Cubic inch",61023.7,"/"]
+]
