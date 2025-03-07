@@ -1,0 +1,13 @@
+celsius to fahrenheit:
+
+celsius to kelvin then kelvin to fahrenheit
+
+(x + 273.15) = y K
+(y - 273.15) *9/5 + 32 = z degF
+
+(x + 273.15 - 273.15) * 9/5 + 32
+= x*9/5 + 32
+= (x + 160/9) * 9/5 = z degF
+
+fahrenheit to kelvin:
+(x - 32) * 5/9 + 273.15

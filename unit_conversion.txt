@@ -1,0 +1,26 @@
+km to m:
+
+(1 km * 1000 m/km) * 1 (m/m)
+
+km to mile:
+
+(1 km * 1000 m/km) * (1/1609 mile/m)
+= (1 km) * (1000/1609) mi/km
+= (1 km) * (1 km * 1000 m/km) / (1 mi * 1609 m /mi)
+
+unit_1 to unit_2:
+(x unit_1 * y m/unit_1) / z m/unit_2
+= (x unit_1) * (y/z) [(m/unit_1) / (m/unit_2)]
+= (x unit_1) * (y/z) [(m/unit_1) * (unit_2/m)]
+= (x unit_1) * (y/z) (unit_2/unit_1)
+
+here, y must be m/unit_1 and z must be m/unit_2
+ 
+left: 
+ if operator is * i.e. multiply 1000 to get m, then y < 1 and therefore its factor will populate denominator.
+ if operator is / i.e. divide by 100 to get m, then y > 1 (multiple m represent 1 unit_1) and therefore its factor will populate numerator
+ 
+right:
+since z is divided here, logic gets different
+if operator is * such as multiply 1000 to get m, then z < 1, and its factor would appear as 1/something which when divided leads to multiplication with something/1 and so its factor will populate the numerator
+
