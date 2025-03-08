@@ -47,13 +47,25 @@ def invert_operations(series: list) -> list:
 # Will yield 'result = result + 5; result = result / 20'
 # The simple series of statements for now is easier to display than a complex web
 # of parentheses-filled statements, so let's ignore that for now
-def display_conversion(series: list,invert=False):
+def display_conversion(series: list,invert=False,step=0):
     conversion_string = ""
     if invert:
         series = invert_operations(series)
     for operation in series:
-        conversion_string += f"result {operation["operator"]}= {operation["factor"]};"
-    conversion_string = conversion_string.removesuffix(';')
+        if operation["operator"] == "+":
+            action = "add"
+        elif operation["operator"] == "-":
+            action = "subtract"
+        elif operation["operator"] == "*":
+            action = "multiply by"
+        elif operation["operator"] == "/":
+            action = "divide by"
+        if conversion_string:
+            conversion_string += ", then "
+            conversion_string += f"{action} {operation["factor"]}"
+        elif step:
+            conversion_string += f"Step {step}: "
+            conversion_string += f"{action} {operation["factor"]}".capitalize()
     st.write(conversion_string)
 
 # Performs given series of operations on given value, and returns the result
@@ -160,8 +172,8 @@ with open("data/quantity.json") as quantity_file:
         if quantity != "temperature":
             action = "Multiply" if factor_numerator > factor_denominator else "Divide"
             factor = (factor_numerator/factor_denominator) if factor_numerator > factor_denominator else (factor_denominator/factor_numerator)
-            st.subheader(f"Formula: {action} by {factor}")
+            st.write(f"Formula: {action} by {factor}")
         else:
 #            display_conversion(unit_list.index(st.session_state.left_unit)[1])
-            display_conversion(unit_data[unit_list.index(st.session_state.left_unit)][1])
-            display_conversion(unit_data[unit_list.index(st.session_state.right_unit)][1],True)
+            display_conversion(unit_data[unit_list.index(st.session_state.left_unit)][1],step=1)
+            display_conversion(unit_data[unit_list.index(st.session_state.right_unit)][1],True,step=2)
