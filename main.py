@@ -78,6 +78,8 @@ def convert_right_value_temperature():
     return 1,1
 
 def convert_left_value_temperature():
+    st.session_state.left_value = perform_operations(unit_data[unit_list.index(st.session_state.right_unit)][1],st.session_state.right_value)
+    st.session_state.left_value = perform_operations(unit_data[unit_list.index(st.session_state.left_unit)][1],st.session_state.left_value,True)
     return 1,1
 
 def convert_right_value():
