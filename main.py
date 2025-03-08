@@ -21,6 +21,23 @@ def swap_if_duplicate(**kwargs):
         if st.session_state.left_unit == st.session_state.right_unit:
             st.session_state.left_unit = st.session_state.prev_right_unit
 
+# Inverts series of operation as follows:
+# 1. Reverses the order of operations in the series
+# 2. Turns the operator of each operation into its opposite
+def invert_operations(series: list) -> list:
+    rseries = reversed(series)
+    series = []
+    for operation in rseries:
+        if operation["operator"] == "+":
+            roperation = {"operator" : "-","factor" : operation["factor"]}
+        if operation["operator"] == "-":
+            roperation = {"operator" : "+","factor" : operation["factor"]}
+        if operation["operator"] == "*":
+            roperation = {"operator" : "/","factor" : operation["factor"]}
+        if operation["operator"] == "/":
+            roperation = {"operator" : "*","factor" : operation["factor"]}
+        series.append(roperation)
+    return series
 # Function takes in series of operations, which is a list of dictionaries,
 # and presents them to the user.
 # Each dictionary consists of two key-value pairs: factor and operator
@@ -33,24 +50,31 @@ def swap_if_duplicate(**kwargs):
 def display_conversion(series: list,invert=False):
     conversion_string = ""
     if invert:
-        rseries = reversed(series)
-        series = []
-        for operation in rseries:
-            if operation["operator"] == "+":
-                roperation = {"operator" : "-","factor" : operation["factor"]}
-            if operation["operator"] == "-":
-                roperation = {"operator" : "+","factor" : operation["factor"]}
-            if operation["operator"] == "*":
-                roperation = {"operator" : "/","factor" : operation["factor"]}
-            if operation["operator"] == "/":
-                roperation = {"operator" : "*","factor" : operation["factor"]}
-            series.append(roperation)
+        series = invert_operations(series)
     for operation in series:
         conversion_string += f"result {operation["operator"]}= {operation["factor"]};"
     conversion_string = conversion_string.removesuffix(';')
     st.write(conversion_string)
 
+# Performs given series of operations on given value, and returns the result
+# Inverts the series first if given to do so
+def perform_operations(series: list,input: float,invert=False):
+    if invert:
+        series = invert_operations(series)
+    for operation in series:
+        if operation["operator"] == '+':
+            input += operation["factor"]
+        elif operation["operator"] == '-':
+            input -= operation["factor"]
+        elif operation["operator"] == '*':
+            input *= operation["factor"]
+        elif operation["operator"] == '/':
+            input /= operation["factor"]
+    return input
+
 def convert_right_value_temperature():
+    st.session_state.right_value = perform_operations(unit_data[unit_list.index(st.session_state.left_unit)][1],st.session_state.left_value)
+    st.session_state.right_value = perform_operations(unit_data[unit_list.index(st.session_state.right_unit)][1],st.session_state.right_value,True)
     return 1,1
 
 def convert_left_value_temperature():
@@ -138,6 +162,4 @@ with open("data/quantity.json") as quantity_file:
         else:
 #            display_conversion(unit_list.index(st.session_state.left_unit)[1])
             display_conversion(unit_data[unit_list.index(st.session_state.left_unit)][1])
-            display_conversion(unit_data[unit_list.index(st.session_state.right_unit)][1])
-            display_conversion(unit_data[unit_list.index(st.session_state.left_unit)][1],True)
             display_conversion(unit_data[unit_list.index(st.session_state.right_unit)][1],True)

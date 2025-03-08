@@ -1,0 +1,42 @@
+fahrenheit to celsius:
+fahrenheit to kelvin -> kelvin to celsius
+
+celsius to fahrenheit:
+celsius to kelvin -> kelvin to fahrenheit
+
+kelvin to fahrenheit:
+kelvin to kelvin -> kelvin to fahrenheit
+
+x to y:
+x to kelvin -> kelvin to y
+y to x:
+y to kelvin -> kelvin to x
+
+
+Let's standardize this as everything has to be stated from the point of view of
+converting to kelvin.
+
+x to y:
+x to kelvin -> inverse of y to kelvin
+
+y to x:
+y to kelvin -> inverse of x to kelvin
+
+celsius to kelvin: x + 273.15
+inverse of celsius to kelvin is x - 273.15
+
+fahrenheit to kelvin: (fahrenheit to celsius) as celsius to kelvin
+= (fahrenheit to celsius) + 273.15
+= (x - 32)*5/9 + 273.15
+
+
+Therefore, we need a function that can invert its given function.
+For example, we see here that fahrenheit to kelvin consists of three steps:
+1. subtract 32, 2. Multiply by 5/9, and 3. Add 273.15
+
+(x -32) * 5/9 + 273.15
+
+We need to have a way where we can invert the operations to get kelvin to fahrenheit
+1. subtract 273.15, 2. Multiply by 9/5, and 3. add 32
+
+One way to do this is to introduce 'chain of operations', where for temperature, we have a chain of operations to get from given unit to kelvin. Then, to invert it, we do two things: Apply the chain in reverse, and revert whatever is being done in each part of the chain.
